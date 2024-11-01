@@ -4,20 +4,20 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Red Blog</title>
+  <title>My Red & Black Blog</title>
   <style>
     /* 全局样式 */
     body {
       font-family: Arial, sans-serif;
       margin: 0;
       padding: 0;
-      background-color: #f00; /* 红色背景 */
-      color: white;
+      background-color: #f4f4f4; /* 浅灰色背景，作为整体底色，使页面更柔和 */
     }
 
     /* 头部样式 */
     header {
-      background-color: #900; /* 深红色头部 */
+      background-color: #333; /* 黑色头部，沉稳大气 */
+      color: white;
       text-align: center;
       padding: 20px;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
@@ -31,7 +31,7 @@
     section {
       width: 80%;
       margin: 20px auto;
-      background-color: #f55; /* 稍浅红色的容器背景 */
+      background-color: white; /* 白色容器背景，突出内容 */
       padding: 20px;
       border-radius: 10px;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
@@ -39,7 +39,7 @@
 
     /* 文章样式 */
     article {
-      background-color: #f88; /* 更浅红色的文章背景 */
+      background-color: #f88; /* 浅红色文章背景，与整体配色呼应 */
       padding: 20px;
       margin-bottom: 20px;
       border-radius: 5px;
@@ -54,8 +54,17 @@
       line-height: 1.6;
     }
 
+    /* 图片样式 */
+    img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 5px;
+      margin-bottom: 10px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    }
+
     /* 日期时间和天气预报样式 */
-  .info-section {
+ .info-section {
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -74,7 +83,7 @@
 
 <body>
   <header>
-    <h1>My Red Blog</h1>
+    <h1>My Red & Black Blog</h1>
   </header>
   <section>
     <div class="info-section">
@@ -87,6 +96,7 @@
         I went on an amazing adventure last week. I hiked through beautiful mountains, breathing in the fresh air and
         enjoying the stunning views. The path was challenging at times, but every step was worth it.
       </p>
+      <img src="adventure_image.jpg" alt="Adventure Image">
     </article>
     <article>
       <h2>New Recipe Discovery</h2>
@@ -94,6 +104,7 @@
         I discovered a new recipe recently. It's a delicious pasta dish with lots of fresh tomatoes, spinach, and
         creamy cheese. The combination of flavors was simply incredible.
       </p>
+      <img src="recipe_image.jpg" alt="Recipe Image">
     </article>
   </section>
   <script>
