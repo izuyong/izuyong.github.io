@@ -6,10 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>我的博客</title>
     <link rel="stylesheet" href="styles.css">
-    <!-- 引入 jQuery，用于简化操作 -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <!-- 引入高德地图的JavaScript API，记得将此处的key替换为你自己申请的高德地图密钥 -->
-    <script src="https://webapi.amap.com/maps?v=1.4.15&key=你的高德地图密钥"></script>
 </head>
 
 <body>
@@ -78,43 +75,24 @@
             document.getElementById('date-time-info').innerHTML = dateTimeString;
         }
         displayDateTime();
-        // 每隔1秒更新一次时间显示
         setInterval(displayDateTime, 1000);
 
-        // 获取当地天气预报信息并显示在页面上
-        function getWeather() {
-            // 使用高德地图的定位插件获取当前位置的经纬度
-            var geolocation = new AMap.Geolocation({
-                // 是否使用高精度定位，默认：true
-                enableHighAccuracy: true,
-                // 设置定位超时时间，默认：无穷大
-                timeout: 10000,
-                // 定位按钮的停靠位置的偏移量，默认：像素(10, 20)
-                buttonOffset: new AMap.Pixel(10, 20),
-                // 定位成功后调整地图视野范围使定位位置及精度范围视野内可见，默认：false
-                zoomToAccuracy: true,
-                // 定位按钮的排放位置，这里设置为右下角
-                buttonPosition: 'rb'
-            });
-            geolocation.getCurrentPosition(function (status, result) {
-                if (status === 'complete') {
-                    var adcode = result.addressComponent.adcode;
-                    // 使用高德地图的天气插件获取天气信息
-                    var weather = new AMap.Weather();
-                    weather.getLive(adcode, function (err, data) {
-                        if (err) {
-                            console.log(err);
-                        } else {
-                            var weatherInfo = "城市：" + data.city + "，天气：" + data.weather + "，温度：" + data.temperature + "摄氏度，湿度：" + data.humidity;
-                            document.getElementById('weather-info').innerHTML = weatherInfo;
-                        }
-                    });
-                } else {
-                    console.log(result.message);
+        // 获取用户IP地址以确定城市，并获取天气信息
+        $.get("http://ip.ws.126.net/ipquery", function (data) {
+            var city = data.city;
+            // 调用天气数据接口
+            var url = encodeURI("http://wthrcdn.etouch.cn/weather_mini?city=" + city);
+            $.get({
+                url: url,
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    var todayWeather = data.data.forecast[0];
+                    var weatherInfo = "城市：" + data.data.city + "，日期：" + todayWeather.date + "，天气：" + todayWeather.type + "，温度：" + todayWeather.high + "~" + todayWeather.low + "，穿衣指数：" + data.data.ganmao;
+                    $("#weather-info").html(weatherInfo);
                 }
             });
-        }
-        getWeather();
+        });
     </script>
 </body>
 
