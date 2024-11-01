@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的博客</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- 引入 jQuery，用于简化操作 -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- 引入高德地图的JavaScript API，记得将此处的key替换为你自己申请的高德地图密钥 -->
+    <script src="https://webapi.amap.com/maps?v=1.4.15&key=你的高德地图密钥"></script>
+</head>
+
+<body>
+    <!-- 页面头部 -->
+    <header>
+        <h1>我的精彩博客</h1>
+        <nav>
+            <ul>
+                <li><a href="#">首页</a></li>
+                <li><a href="#">关于</a></li>
+                <li><a href="#">文章</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- 博客内容区域 -->
+    <section id="blog-content">
+        <article>
+            <h2>我的第一篇文章</h2>
+            <img src="post-image1.jpg" alt="文章配图1" class="post-image">
+            <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam vehicula, nunc eget consectetur
+                faucibus,
+                nibh nibh.</p>
+            <p> Maecenas euismod dolor in lacus consectetur, eget consectetur velit faucibus. Sed eget libero
+                nec nulla
+                consectetur aliquam.</p>
+        </article>
+        <article>
+            <h2>另一篇精彩文章</h2>
+            <img src="post-image2.jpg" alt="文章配图2" class="post-image">
+            <p> Ut aliquam, nunc eget consectetur faucibus, nibh nibh eget libero nec nulla consectetur
+                aliquam.</p>
+            <p> Integer sit amet magna eget dolor consectetur aliquam. Sed eget libero nec nulla consectetur
+                aliquam.
+            </p>
+        </article>
+    </section>
+
+    <!-- 当前日期时间 -->
+    <section id="current-date-time">
+        <p id="date-time-info"></p>
+    </section>
+
+    <!-- 天气预报 -->
+    <section id="weather-section">
+        <h2>天气预报</h2>
+        <p id="weather-info"></p>
+    </section>
+
+    <!-- 页面底部 -->
+    <footer>
+        <p>© 2024 我的博客。保留所有权利。</p>
+    </footer>
+
+    <script>
+        // 获取当前日期时间并显示在页面上
+        function displayDateTime() {
+            var currentDate = new Date();
+            var year = currentDate.getFullYear();
+            var month = currentDate.getMonth() + 1;
+            var day = currentDate.getDate();
+            var hour = currentDate.getHours();
+            var minute = currentDate.getMinutes();
+            var second = currentDate.getSeconds();
+            var dateTimeString = "当前日期和时间：" + year + "年" + month + "月" + day + "日 " + hour + "时" + minute + "分" + second + "秒";
+            document.getElementById('date-time-info').innerHTML = dateTimeString;
+        }
+        displayDateTime();
+        // 每隔1秒更新一次时间显示
+        setInterval(displayDateTime, 1000);
+
+        // 获取当地天气预报信息并显示在页面上
+        function getWeather() {
+            // 使用高德地图的定位插件获取当前位置的经纬度
+            var geolocation = new AMap.Geolocation({
+                // 是否使用高精度定位，默认：true
+                enableHighAccuracy: true,
+                // 设置定位超时时间，默认：无穷大
+                timeout: 10000,
+                // 定位按钮的停靠位置的偏移量，默认：像素(10, 20)
+                buttonOffset: new AMap.Pixel(10, 20),
+                // 定位成功后调整地图视野范围使定位位置及精度范围视野内可见，默认：false
+                zoomToAccuracy: true,
+                // 定位按钮的排放位置，这里设置为右下角
+                buttonPosition: 'rb'
+            });
+            geolocation.getCurrentPosition(function (status, result) {
+                if (status === 'complete') {
+                    var adcode = result.addressComponent.adcode;
+                    // 使用高德地图的天气插件获取天气信息
+                    var weather = new AMap.Weather();
+                    weather.getLive(adcode, function (err, data) {
+                        if (err) {
+                            console.log(err);
+                        } else {
+                            var weatherInfo = "城市：" + data.city + "，天气：" + data.weather + "，温度：" + data.temperature + "摄氏度，湿度：" + data.humidity;
+                            document.getElementById('weather-info').innerHTML = weatherInfo;
+                        }
+                    });
+                } else {
+                    console.log(result.message);
+                }
+            });
+        }
+        getWeather();
+    </script>
+</body>
+
+</html>
